@@ -1,5 +1,8 @@
 # SVG 基础
 
+## 通用属性
+* transform
+
 ## 通用样式
 * fill:  填充色
 * fill-opacity: 填充色透明度
@@ -10,7 +13,63 @@
 * stroke-dasharray：用来创建虚线（如 `stroke-dasharray="5,5"`）
 * fill-rule
 
-## 形状
+## 文本
+### SVG 文本 （`<text>`）
+说明：用来定义文字文本，例如 `<text>测试文字</text>`
+
+### 内联文本  （`<tspan>`）
+说明：嵌套在 `<text>` 标签中，与 `<span>` 标签类似，用于定义一组文本的样式
+
+### 文本路径  （`<textPath>`）
+说明：嵌套在 `<text>` 标签中，使文字按照指定路径排列，放在 `<text>` 标记内部引用预定义的 `<path>`，引用时，使用 `xlink:href` 属性指明需要引用的路径的 ID
+
+### 链接 （`<a>`）
+说明：创建一个 SVG 元素链接
+
+* xlink:show
+* xlink:actuate
+* xlink:href
+* target
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SVG 学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <svg width="800" height="400" style="border: 1px solid #aaa;">
+        <defs>
+            <path id="MyPath" d="M 100 200 
+                     C 200 100 300   0 400 100
+                     C 500 200 600 300 700 200
+                     C 800 100 900 100 900 100" />
+        </defs>
+        <a xlink:href="https://www.baidu.com" target="_blank">
+            <text x="100" y="15" style="fill: #009; cursor: pointer;"> 打开百度</text>
+        </a>
+        <text x="0" y="15" style="fill: red;" transform="rotate(30 20, 30)">
+             Just test SVG! <tspan style="fill: #0f0; font-size: 26px; font-style: italic;">中国人民银行</tspan> nothing nothing nothing
+        </text>
+        <text>
+            <textPath xlink:href="#MyPath">
+                SVG 基本功能测试基本功能测试基本功能测试基本功能测试基本功能测试
+            </textPath>
+        </text>
+    </svg>
+</body>
+</html>
+```
+
+
+## 基本图形
 
 ### 矩形（`<rect>`）
 * x: 元素距离左边的距离
@@ -96,5 +155,101 @@
         <path d="M 100 350 q 150 -300 300 0" stroke="blue" stroke-width="5" fill="none" />
     </svg>
 </body>
+</html>
+```
+
+## 结构元素
+### 分组 （`<g>`）
+说明：`<g>` 用于分组，它能把多个元素放在一组里，对 `<g>` 标记的样式和渲染会作用到这个分组内的所有元素上。组内的所有元素都会继承 `<g>` 标记上的所有属性。用 `<g>` 定义的分组还可以使用 `<use>` 进行复制使用。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SVG 学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <svg width="400" height="300" style="border: 1px solid #999;">
+        <g style="fill: red; stroke: #090; stroke-width: 2;">
+            <circle r="40" cx="180" cy="140"></circle>
+            <rect x="30" y="40" width="100" height="50"></rect>
+            <rect x="230" y="40" width="100" height="50"></rect>
+        </g>
+    </svg>
+</body>
+</html>
+```
+
+### 复制 （`<use>`）
+说明：`<use>` 能从 SVG 文档内部取出一个节点，克隆它，并把它输出到别处。子元素能继承来自 `<use>` 样式
+
+```html
+<html lang="en">
+
+<head>
+    <title>SVG 学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <svg width="400" height="300" style="border: 1px solid #999;">
+        <defs>
+            <g id="shape" style="fill: inherit; stroke: #090; stroke-width: 2;">
+                <circle r="40" cx="180" cy="140"></circle>
+                <rect x="30" y="40" width="100" height="50"></rect>
+                <rect x="230" y="40" width="100" height="50"></rect>
+            </g>
+        </defs>
+
+        <text y="15">图形1</text>
+        <use x="20" y="20" xlink:href="#shape" style="fill: #009;"></use>
+    </svg>
+</body>
+
+</html>
+```
+
+### 模板（<symbol>）
+`<symbol>` 的作用是定义一个图像模板，使用 `<use>` 标记实例化它，然后在 SVG 文档中反复使用。`<symbol>` 本身不会输出任何图像，只有使用 `<use>` 实例化后才会显示。
+
+```html
+<html lang="en">
+
+<head>
+    <title>SVG 学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <svg width="400" height="300" style="border: 1px solid #999;">
+        <!-- symbol definition  NEVER draw -->
+        <symbol id="sym01" viewBox="0 0 150 110">
+            <circle cx="50" cy="50" r="40" stroke-width="8" stroke="red" fill="red" />
+            <circle cx="90" cy="60" r="40" stroke-width="8" stroke="green" fill="white" />
+        </symbol>
+    
+        <!-- actual drawing by "use" element -->
+        <use xlink:href="#sym01" x="0" y="0" width="100" height="50" />
+        <use xlink:href="#sym01" x="0" y="50" width="75" height="38" />
+        <use xlink:href="#sym01" x="0" y="100" width="50" height="25" />
+    </svg>
+</body>
+
 </html>
 ```
