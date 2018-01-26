@@ -1,21 +1,36 @@
 # SVG 基础
 
-## 通用属性
-* transform
+## SVG 元素通用属性
+* transform 对基础图形进行变换处理（与 CSS3 中的 transform 属性有点不一致）
+    * 平移 `translate(50,30)` 
+    * 缩放 `scale(2)` 
+    * 旋转 `rotate(30)` 
+    * 翻转 `skewX()`、`skewY(10)`
+* fill：填充色
+* stroke：定义图形、文本等的边线颜色
 
-## 通用样式
+说明：支持 hover 伪类、id、class 等
+
+## SVG 元素通用 CSS 样式
+* display: 控制元素是否可见（`inline`、`none`，所有元素的初始值都为 `inline`）
 * fill:  填充色
 * fill-opacity: 填充色透明度
 * stroke: 定义图形、文本等的边线颜色
 * stroke-width: 定义图形、文字边线的宽度 
 * stroke-opacity: 定义图形、文字边线的透明度
 * stroke-linecap：用来定义开放式路径的端点的样式（`butt`、`round`、`square`）
+* stroke-linejoin：用来控制两个线段之间的联合是如何绘制
 * stroke-dasharray：用来创建虚线（如 `stroke-dasharray="5,5"`）
-* fill-rule
+* fill-rule：判断路径的哪一侧在路径所构成的形状的内部，从而判断fill属性如何给这个形状上色
+
+![stroke-linecap 属性](https://mdn.mozillademos.org/files/730/SVG_Stroke_Linecap_Example.png)
+![stroke-linejoin 属性](https://mdn.mozillademos.org/files/731/SVG_Stroke_Linejoin_Example.png)
 
 ## 文本
 ### SVG 文本 （`<text>`）
 说明：用来定义文字文本，例如 `<text>测试文字</text>`
+
+支持的样式：`font-family`，`font-style`，`font-weight`，`font-variant`，`font-stretch`，`font-size`，`font-size-adjust`，`kerning`，`letter-spacing`，`word-spacing` 和 `text-decoration`
 
 ### 内联文本  （`<tspan>`）
 说明：嵌套在 `<text>` 标签中，与 `<span>` 标签类似，用于定义一组文本的样式

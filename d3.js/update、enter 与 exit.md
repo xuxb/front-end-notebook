@@ -1,18 +1,35 @@
 # update、enter 与 exit
 
-作用：处理选择集和数据集关系不确定的情况
-
-> 当有通过数据更新视图时，正确的顺序应该是 `update()` 、`enter()`、`exit()`
+作用：处理选择集和数据集关系不确定的情况，对各种选择集分别作处理。
 
 `selection.data()` 操作返回的是三个 Virtual selection，这三个 Virtual selection 是 enter、 update 以及 exit。
 
-* `update` 表示在 DOM 中即将被更新的选择集，update 部分的处理办法一般是：**更新属性值**，如 `let updateSelection = svg.selectAll('circle').data(dataSet)`
-* `enter` 在 DOM 中即将被添加的选择集，enter 部分的处理办法一般是：**添加元素后，赋予属性值**，如 `let enterSelection = svg.selectAll('circle').data(dataSet).enter()`
-* `exit` 在 DOM 中即将被删除的选择集，exit 部分的处理办法一般是：**修改属性值，删除元素**，如 `let exitSelection = svg.selectAll('circle').data(dataSet).exit()`
+假设用三个 `<p>` 元素的选择集（对应的数据分别为 `[0, 1, 2]`），
+
+如果将新数据集 [3, 6, 9, 12, 15] 绑定到选择集上，则前三个数据（3，6，9）有与之对应的元素，这部分成为 `Update`
+而后面两个数据（12，15）没有与之对应的元素，这部分成为 `Enter`
+
+如果将新数据集 `[4, 6]` 绑定到选择集上，则前两个数据（4，6）有与之对应的元素，这部分成为 `Update`
+而原来选择集最后一个数据（2）没有与之对应的元素，这部分成为 `Exit`
+
+
+** update、enter、exit的区别**
+
+`d3.selectAll('text')` 的返回值是一个选择集，返回的是当前 DOM 的信息
+`d3.selectAll('text').data(dataSet)` 的返回值是一个选择集，有 `enter()`、`exit()` 方法，返回的是绑定前后对比的信息
+
+* `update`: 表示在 DOM 中即将被更新的选择集，update 部分的处理办法一般是：**更新属性值**，如 `let updateSelection = svg.selectAll('circle').data(dataSet)`
+* `enter`: 表示在 DOM 中即将被添加的选择集，enter 部分的处理办法一般是：**添加元素后，赋予属性值**，如 `let enterSelection = svg.selectAll('circle').data(dataSet).enter()`
+* `exit`: 表示在 DOM 中即将被删除的选择集，exit 部分的处理办法一般是：**修改属性值，删除元素**，如 `let exitSelection = svg.selectAll('circle').data(dataSet).exit()`
+
+说明：并没有 `svg.selectAll('circle').data(dataSet).update()` 方法，`svg.selectAll('circle').data(dataSet)` 直接返回 Update 选择集（） 
+
+> * 比较的是数据集与选择集，而不是比较数据集与选择集中的数据（与 Vue 中的 key 属性、DOM元素复用没有任何联系）
+> * 当有通过数据更新视图时，正确的顺序应该是 `update()` 、`enter()`、`exit()`
+> * 重新将数据绑定到选择集上时，不可能同时存在 `enter()`、`exit()`
 
 对于数组中的数据元素，如果缺少与之对应的 DOM 元素，那么就会有一个占位符来顶替，而 `enter()` 方法返回的就是这些占位符集合的引用。
 这个引用后只能链接 `append()`，`insert()` 以及 `select()` 操作符，通过他们来操作该引用所指向的集合。
-
 
 ### `data()` 数据绑定（`selection.selectAll().data().enter().append()`）
 * `let selectoin = svg.selectAll('circle')` 因为 SVG 容器是空的，返回一个新的空选择 `selection`。 
@@ -64,7 +81,7 @@
             .attr('height', h - padding.top - padding.bottom);
 
         function update(dataSet) {
-            let texts = container.selectAll('text').data(dataSet);
+            let texts = container.selectAll('text').data(dataSet/* , (d) => d */);
 
             console.log(dataSet);
 
