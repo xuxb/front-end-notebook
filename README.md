@@ -1,7 +1,10 @@
 # 项目说明
 
 ### 本地运行
-1. `npm install hexo-cli -g`
+1. 全局安装 hexo `npm install hexo-cli -g`
+2. 全局项目依赖 `npm i`
+3. 执行 `hexo g` 生成静态文件
+4. 执行 `hexo d` 部署至 git 仓库
 
 ### 使用 hexo 创建项目
 * 全局安装 hexo，执行命令 `npm install hexo-cli -g`
