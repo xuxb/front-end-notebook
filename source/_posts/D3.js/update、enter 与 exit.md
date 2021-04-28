@@ -1,3 +1,10 @@
+---
+title: update、enter 与 exit
+categories: [D3.js]
+tags: [D3.js]
+date: 2021-03-24
+---
+
 # update、enter 与 exit
 
 作用：处理选择集和数据集关系不确定的情况，对各种选择集分别作处理。

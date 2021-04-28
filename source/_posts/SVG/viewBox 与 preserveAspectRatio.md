@@ -1,3 +1,10 @@
+---
+title: viewBox 与 preserveAspectRatio
+categories: SVG
+tags: [SVG]
+date: 2021-03-24
+---
+
 # viewBox 与 preserveAspectRatio
 
 ### 视窗（viewport） 

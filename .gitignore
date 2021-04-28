@@ -1,0 +1,16 @@
+# dependencies
+/node_modules
+/npm-debug.log*
+/yarn-error.log
+/yarn.lock
+
+# production
+/dist
+/cicdDist
+package-lock.json
+
+# misc
+.DS_Store
+
+/public
+/.deploy_git

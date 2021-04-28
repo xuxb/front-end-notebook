@@ -1,4 +1,11 @@
-# SVG 基础
+---
+title: SVG 基础元素
+categories: SVG
+tags: [SVG]
+date: 2021-03-24
+---
+
+# SVG 基础元素
 
 ## SVG 元素通用属性
 * transform 对基础图形进行变换处理（与 CSS3 中的 transform 属性有点不一致）
