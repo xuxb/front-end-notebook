@@ -39,8 +39,12 @@ date: 2021-01-14 15:42:00
 
 
 ### 3. 防御措施
+* 设置 Content-Security-Policy 头信息（HTTP 头信息、html 的 meta 标签），控制浏览器能够为指定的页面加载哪些资源
 * 在服务器端设置 Cookie 为 `http-only`，浏览器会禁止 js 访问该 `Cookie`
 * 输入检查，对用户提交的数据进行校验，对特殊字符进行编码和过滤（主要在后端）
 * 输出检查，对渲染到 html 中的内容进行 htmlEncode（主要在前端）
 * 针对不同的上下文调用不同的转义规则，如 HTML 属性、HTML 文字内容、HTML 注释、跳转链接、内联 JavaScript 字符串、内联 CSS 样式表等，所需要的转义规则不一致
 * 利用模板引擎，避免内联事件，避免拼接 HTML
+
+##### 参考
+* [Content-Security-Policy文档](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy)
